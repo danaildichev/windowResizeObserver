@@ -40,8 +40,8 @@ class WindowResizeObserver
      */
     resetQueueDelay(queueDelay)
     {
-        this.queueDelay = queueDelay;
         if (queueDelay > 0) { this.enqueueActions(); }
+        else { this.queueDelay = 0; }
     }
 
 
@@ -160,12 +160,12 @@ class WindowResizeObserver
     /**
      * Swap positions of two actions
      *
-     * @param {Number} a Index of an action to be swapped
-     * @param {Number} b Index of an action to be swapped
+     * @param {Number} posA Index of an action to be swapped
+     * @param {Number} posB Index of an action to be swapped
      *
      * @return {undefined}
      */
-    swapActionsAt(a, b)
+    swapActionsAt(posA, posB)
     {
         if (this.actions[a] && this.actions[b])
         {
@@ -192,7 +192,13 @@ class WindowResizeObserver
     }
 
 
-    swapActions(a, b)
+    /**
+     * Get index positions of functions a and b and passes them to swapActionsAt()
+     *
+     * @param {Function} actionA A function to swap
+     * @param {Function} actionB A function to swap
+     */
+    swapActions(actionA, actionB)
     {
         const posA = this.getIndexOf(a);
         const posB = this.getIndexOf(b);
@@ -218,6 +224,17 @@ class WindowResizeObserver
      * @return {undefined}
      */
     removeAction(action) { this.removeActionAt( this.getIndexOf(action) ); }
+
+
+    /**
+     * Reset the action queue to an empty array
+     *
+     * @return undefined
+     */
+    clearQueue()
+    {
+        this.actions = [];
+    }
 
 
     /**
